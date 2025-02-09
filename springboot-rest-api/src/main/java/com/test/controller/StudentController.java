@@ -77,19 +77,26 @@ public class StudentController {
     //http://localhost:8080/getStudent/491
     @GetMapping("/getStudent/{id}")
     public List<Student> addStudentPost(@PathVariable int id) {
-        return list.stream().filter(e->e.getId() == id).toList();
+        return list.stream().filter(e -> e.getId() == id).toList();
     }
 
     //SpringBoot Rest API to handle HTTP Put Request - update existing resource
     //http://localhost:8080/students/491/update
     @PutMapping("/students/{id}/update")
     @ResponseStatus(HttpStatus.OK)
-    public Student updateStudent(@RequestBody Student student,@PathVariable int id) {
+    public Student updateStudent(@RequestBody Student student, @PathVariable int id) {
         Optional<Student> result = list.stream()
-                .filter(obj->obj.getId()==id)
-                .peek(obj->obj.setFirstName(student.getFirstName()))
-                .peek(obj->obj.setLastName(student.getLastName()))
+                .filter(obj -> obj.getId() == id)
+                .peek(obj -> obj.setFirstName(student.getFirstName()))
+                .peek(obj -> obj.setLastName(student.getLastName()))
                 .findFirst();
         return result.orElse(null);
+    }
+
+    //SpringBoot Rest API to handle HTTP Put Request - delete existing resource
+    //http://localhost:8080/students/491/delete
+    @DeleteMapping("/students/{id}/delete")
+    public String deleteStudent(@PathVariable int id) {
+        return "student with " + id + " deleted successfully...!";
     }
 }
