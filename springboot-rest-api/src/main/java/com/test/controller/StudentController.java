@@ -78,4 +78,12 @@ public class StudentController {
     public List<Student> addStudentPost(@PathVariable int id) {
         return list.stream().filter(e->e.getId() == id).toList();
     }
+
+    //SpringBoot Rest API to handle HTTP Put Request - update existing resource
+    //http://localhost:8080/students/491/update
+    @PutMapping("/students/{id}/update")
+    @ResponseStatus(HttpStatus.OK)
+    public Student updateStudent(@RequestBody Student student,@PathVariable int id) {
+        return student;
+    }
 }
