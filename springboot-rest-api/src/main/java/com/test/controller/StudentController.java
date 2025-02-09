@@ -2,6 +2,7 @@ package com.test.controller;
 
 import com.test.bean.Student;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -98,5 +99,82 @@ public class StudentController {
     @DeleteMapping("/students/{id}/delete")
     public String deleteStudent(@PathVariable int id) {
         return "student with " + id + " deleted successfully...!";
+    }
+    /// ResponseEntity Examples
+    //http://localhost:8080/responseEntity/student
+    @GetMapping("/responseEntity/student")
+    public ResponseEntity<Student> getStudentResponseEntity() {
+        Student student = new Student(491L, "pradeep", "kandyala");
+        //return new ResponseEntity<>(student,HttpStatus.OK);
+        //return ResponseEntity.ok(student);
+        return ResponseEntity.ok()
+                .header("custome-header", "pradeep")
+                .body(student);
+    }
+    //To return list as a json
+    //http://localhost:8080/responseEntity/students
+    @GetMapping("/responseEntity/students")
+    public ResponseEntity<List<Student>> getStudentList1() {
+        List<Student> list1 = Arrays.asList(
+                new Student(491L, "pradeep", "kandyala"),
+                new Student(492L, "punnu", "chowdary"),
+                new Student(493L, "jasvin", "chowdary"),
+                new Student(494L, "siri", "chowdary"));
+        return ResponseEntity.ok(list1);
+    }
+    //SpringBoot Rest API with the Path Variable
+    //http://localhost:8080/responseEntity/students/495
+    @GetMapping("/responseEntity/students/{id}")
+    public ResponseEntity<Student> getStudentPath1(@PathVariable("id") int studentId) {
+        Student student = new Student(studentId, "Nani", "chowdary");
+        return ResponseEntity.ok(student);
+    }
+
+    //SpringBoot Rest API with the Path Variable
+    //http://localhost:8080/responseEntity/students/496/test1/test2
+    @GetMapping("/responseEntity/students/{id}/{first-name}/{last-name}")
+    public ResponseEntity<Student> getStudentPath2(@PathVariable("id") int studentId,
+                                   @PathVariable("first-name") String fname,
+                                   @PathVariable("last-name") String lname) {
+        Student student = new Student(studentId, fname, lname);
+        return ResponseEntity.ok(student);
+    }
+
+    //SpringBoot Rest API with Request Param
+    //http://localhost:8080/responseEntity/students/requestParam?id=101&first-name=pradeep&last-name=jyotshna
+    @GetMapping("/responseEntity/students/requestParam")
+    public ResponseEntity<Student> getStudentRequest1(@RequestParam("id") int id,
+                                     @RequestParam("first-name") String fname,
+                                     @RequestParam("last-name") String lname) {
+        Student student = new Student(id, fname, lname);
+        return ResponseEntity.ok(student);
+    }
+    //SpringBoot Rest API that handles Post Request
+    //PostMapping & @RequestBody
+    //http://localhost:8080/responseEntity/addStudent
+    @PostMapping("/responseEntity/addStudent")
+    //@ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Student> addStudentPost1(@RequestBody Student student) {
+        return new ResponseEntity<>(student,HttpStatus.CREATED);
+    }
+    //SpringBoot Rest API to handle HTTP Put Request - update existing resource
+    //http://localhost:8080/responseEntity/students/491/update
+    @PutMapping("/responseEntity/students/{id}/update")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Student> updateStudent1(@RequestBody Student student, @PathVariable int id) {
+        Optional<Student> result = list.stream()
+                .filter(obj -> obj.getId() == id)
+                .peek(obj -> obj.setFirstName(student.getFirstName()))
+                .peek(obj -> obj.setLastName(student.getLastName()))
+                .findFirst();
+        Student student1 = result.orElse(null);
+        return ResponseEntity.ok(student1);
+    }
+    //SpringBoot Rest API to handle HTTP Put Request - delete existing resource
+    //http://localhost:8080/responseEntity/students/491/delete
+    @DeleteMapping("/responseEntity/students/{id}/delete")
+    public ResponseEntity<String> deleteStudent1(@PathVariable int id) {
+        String s = "student with " + id + " deleted successfully...!";
+        return ResponseEntity.ok(s);
     }
 }
