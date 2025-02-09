@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class StudentController {
@@ -84,6 +85,11 @@ public class StudentController {
     @PutMapping("/students/{id}/update")
     @ResponseStatus(HttpStatus.OK)
     public Student updateStudent(@RequestBody Student student,@PathVariable int id) {
-        return student;
+        Optional<Student> result = list.stream()
+                .filter(obj->obj.getId()==id)
+                .peek(obj->obj.setFirstName(student.getFirstName()))
+                .peek(obj->obj.setLastName(student.getLastName()))
+                .findFirst();
+        return result.orElse(null);
     }
 }
