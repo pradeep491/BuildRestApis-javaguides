@@ -2,6 +2,7 @@ package com.test.blog.service.impl;
 
 import com.test.blog.dtos.PostDTO;
 import com.test.blog.entity.Post;
+import com.test.blog.exception.ResourceNotFoundException;
 import com.test.blog.repository.PostRepository;
 import com.test.blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -38,6 +40,31 @@ public class PostServiceImpl implements PostService {
         listDto =  list.stream().map(post->mapToDto(post)).toList();
         return listDto;
     }
+
+    @Override
+    public PostDTO getPostById(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("post","id",id));
+        return mapToDto(post);
+    }
+
+    @Override
+    public PostDTO updatePost(Long id,PostDTO dto) {
+        //get post by id from the DB, if post not exist exception will be thrown
+        Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("post","id",id));
+        post.setTitle(dto.getTitle());
+        post.setDescription(dto.getDescription());
+        post.setContent(dto.getContent());
+        Post updatedPost = postRepository.save(post);
+        return mapToDto(updatedPost);
+    }
+
+    @Override
+    public String deletePost(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("post","id",id));
+        postRepository.delete(post);
+        return "post deleted with the id-"+id+" successfully...!";
+    }
+
     //convert Entity to DTO
     private PostDTO mapToDto(Post post) {
         PostDTO dto = new PostDTO();
@@ -56,4 +83,5 @@ public class PostServiceImpl implements PostService {
         post.setContent(dto.getContent());
         return post;
     }
+
 }
