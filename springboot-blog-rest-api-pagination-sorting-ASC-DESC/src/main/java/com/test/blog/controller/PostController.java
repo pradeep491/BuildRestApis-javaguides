@@ -27,28 +27,35 @@ public class PostController {
         return new ResponseEntity<>(service.createpost(dto), HttpStatus.CREATED);
     }
 
-    //http://localhost:8088/api/posts?pageNo=1&pageSize=5
+    //http://localhost:8088/api/posts
+    //http://localhost:8088/api/posts?pageNo=0
+    //http://localhost:8088/api/posts?pageNo=0&pageSize=4
+    //http://localhost:8088/api/posts?pageNo=0&pageSize=4&sortBy=id
+    //http://localhost:8088/api/posts?pageNo=0&pageSize=4&sortBy=id&sortDir=desc
     @GetMapping
     public PostResponse getAllPosts(
-            @RequestParam(value="pageNo",defaultValue = "0",required = false) int pageNo,
-            @RequestParam(value="pageSize",defaultValue = "10",required = false) int pageSize,
-            @RequestParam(value="sortBy",defaultValue = "id",required = false) String sortBy){
-        return service.getAllPosts(pageNo,pageSize,sortBy);
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
+        return service.getAllPosts(pageNo, pageSize, sortBy, sortDir);
     }
 
     //http://localhost:8088/api/posts/1
     @GetMapping("/{id}")
-    public ResponseEntity<PostDTO> getPostById(@PathVariable Long id){
+    public ResponseEntity<PostDTO> getPostById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getPostById(id));
     }
+
     //http://localhost:8088/api/posts/7
     @PutMapping("/{id}")
-    public ResponseEntity<PostDTO> updatePost(@PathVariable("id") Long id,@RequestBody PostDTO post){
-        return ResponseEntity.ok(service.updatePost(id,post));
+    public ResponseEntity<PostDTO> updatePost(@PathVariable("id") Long id, @RequestBody PostDTO post) {
+        return ResponseEntity.ok(service.updatePost(id, post));
     }
+
     //http://localhost:8088/api/posts/7
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable("id") Long id){
+    public ResponseEntity<String> deletePost(@PathVariable("id") Long id) {
         return ResponseEntity.ok(service.deletePost(id));
     }
 }
