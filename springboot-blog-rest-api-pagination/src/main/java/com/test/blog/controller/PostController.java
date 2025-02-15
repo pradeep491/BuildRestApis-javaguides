@@ -18,12 +18,14 @@ public class PostController {
     public PostController(PostService service) {
         this.service = service;
     }
+
     //http://localhost:8088/api/posts
     //create blog post Rest API
     @PostMapping
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO dto) {
         return new ResponseEntity<>(service.createpost(dto), HttpStatus.CREATED);
     }
+
     //http://localhost:8088/api/posts?pageNo=1&pageSize=5
     @GetMapping
     public List<PostDTO> getAllPosts(
@@ -31,6 +33,7 @@ public class PostController {
             @RequestParam(value="pageSize",defaultValue = "10",required = false) int pageSize){
         return service.getAllPosts(pageNo,pageSize);
     }
+
     //http://localhost:8088/api/posts/1
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> getPostById(@PathVariable Long id){
