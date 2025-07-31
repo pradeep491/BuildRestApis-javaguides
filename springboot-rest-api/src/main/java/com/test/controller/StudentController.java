@@ -20,7 +20,7 @@ public class StudentController {
                 new Student(491L, "pradeep", "kandyala"),
                 new Student(492L, "punnu", "chowdary"),
                 new Student(493L, "jasvin", "chowdary"),
-                new Student(494L, "siri", "chowdary"));
+                new Student(494L, "jyotshna", "chowdary"));
     }
 
     //http://localhost:8080/students
@@ -37,14 +37,15 @@ public class StudentController {
                 new Student(491L, "pradeep", "kandyala"),
                 new Student(492L, "punnu", "chowdary"),
                 new Student(493L, "jasvin", "chowdary"),
-                new Student(494L, "siri", "chowdary"));
+                new Student(494L, "jyotshna", "chowdary"));
     }
 
     //SpringBoot Rest API with the Path Variable
     //http://localhost:8080/students/495
     @GetMapping("{id}")
     public Student getStudentPath(@PathVariable("id") int studentId) {
-        return new Student(studentId, "Nani", "chowdary");
+        //return new Student(studentId, "Nani", "chowdary");
+        return list.stream().filter(emp->emp.getId() == studentId).findFirst().orElse(null);
     }
 
     //SpringBoot Rest API with the Path Variable
@@ -74,11 +75,9 @@ public class StudentController {
         return student;
     }
 
-    //SpringBoot Rest API that handles Post Request
-    //PostMapping & @RequestBody
     //http://localhost:8080/students/getStudent/491
     @GetMapping("/getStudent/{id}")
-    public List<Student> addStudentPost(@PathVariable int id) {
+    public List<Student> getStudentPost(@PathVariable int id) {
         return list.stream().filter(e -> e.getId() == id).toList();
     }
 
