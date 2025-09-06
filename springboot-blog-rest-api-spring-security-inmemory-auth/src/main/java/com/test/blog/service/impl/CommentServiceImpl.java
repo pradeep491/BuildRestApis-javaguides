@@ -1,7 +1,6 @@
 package com.test.blog.service.impl;
 
 import com.test.blog.dtos.CommentDTO;
-import com.test.blog.dtos.PostResponse;
 import com.test.blog.entity.Comment;
 import com.test.blog.entity.Post;
 import com.test.blog.exception.BlogAPIException;
@@ -98,7 +97,7 @@ public class CommentServiceImpl implements CommentService {
 
 
     private CommentDTO mapToDTO(Comment comment) {
-        /*CommentDTO dto = new CommentDTO();
+       /* CommentDTO dto = new CommentDTO();
         dto.setId(comment.getId());
         dto.setName(comment.getName());
         dto.setEmail(comment.getEmail());

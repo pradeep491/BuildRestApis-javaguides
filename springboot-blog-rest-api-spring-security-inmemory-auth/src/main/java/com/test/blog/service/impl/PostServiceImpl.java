@@ -7,16 +7,13 @@ import com.test.blog.exception.ResourceNotFoundException;
 import com.test.blog.repository.PostRepository;
 import com.test.blog.service.PostService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -88,8 +85,8 @@ public class PostServiceImpl implements PostService {
         dto.setTitle(post.getTitle());
         dto.setDescription(post.getDescription());
         dto.setContent(post.getContent());
-        return dto;*/
-
+        return dto;
+        */
         PostDTO dto = modelMapper.map(post, PostDTO.class);
         return dto;
     }
