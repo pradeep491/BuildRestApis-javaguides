@@ -16,7 +16,7 @@ public class PostDTO {
     //title should not be empty or null
     //title should have at least 2 characters
     @NotEmpty
-    @Size(min=2,message = "post title should have at least 2 characters")
+    @Size(min = 2, message = "post title should have at least 2 characters")
     @Schema(
             description = "Blog Post Title"
     )
