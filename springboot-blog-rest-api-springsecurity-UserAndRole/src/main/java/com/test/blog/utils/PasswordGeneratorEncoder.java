@@ -6,7 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class PasswordGeneratorEncoder {
     public static void main(String[] args) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println(encoder.encode("admin"));
+        System.out.println(encoder.encode("admin1"));
         System.out.println(encoder.encode("pradeep@491"));
+
     }
 }

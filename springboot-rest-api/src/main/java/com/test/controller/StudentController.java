@@ -26,25 +26,20 @@ public class StudentController {
     //http://localhost:8080/students
     @GetMapping
     public Student getStudent() {
-        return new Student(491L, "pradeep", "kandyala");
+        return list.stream().findFirst().get();
     }
 
     //To return list as a json
     //http://localhost:8080/students/studentsList
     @GetMapping("studentsList")
     public List<Student> getStudentList() {
-        return Arrays.asList(
-                new Student(491L, "pradeep", "kandyala"),
-                new Student(492L, "punnu", "chowdary"),
-                new Student(493L, "jasvin", "chowdary"),
-                new Student(494L, "jyotshna", "chowdary"));
+        return list;
     }
 
     //SpringBoot Rest API with the Path Variable
     //http://localhost:8080/students/495
     @GetMapping("{id}")
     public Student getStudentPath(@PathVariable("id") int studentId) {
-        //return new Student(studentId, "Nani", "chowdary");
         return list.stream().filter(emp->emp.getId() == studentId).findFirst().orElse(null);
     }
 
